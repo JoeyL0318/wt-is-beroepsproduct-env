@@ -26,21 +26,17 @@ $dataset->execute(
 <head>
     <meta charset="UTF-8">
     <title>PHP voorbeeld</title>
-    <link rel="stylesheet" href="tabel.css">
+    <link rel="stylesheet" href="/library/tabel.css">
 </head>
 <body>
-    <form action = 'test.php'>
+    <form action = '' method="get">
     <select id="genrenaam" name="genrenaam">
-    <option value="pop">Pop</option>
-    <option value="klassiek">Klassiek</option>
-    <option value="jazz">Jazz</option>
-    <option value="techno">Techno</option>
+    <?php echo getGenreSelectBox($genrenaam); ?>
     </select>
-    <input type="submit">
+    <input type="submit" value="zoek">
     </form>
     <?php
     echo toonTabelInhoud(dataset: $dataset);
-
     echo toonTabel($db, 'stuk');
     echo toonTabel($db, 'componist');
     ?>
