@@ -1,6 +1,16 @@
 <?php
 function toonTabelInhoud($dataset): string {
     $html = '<table>';
+
+    //header
+    $html .= '<thead><tr>';
+    for ($i = 0; $i < $dataset->columnCount(); $i++) {
+    $col = $dataset->getColumnMeta($i);
+    $html .= '<th>' . $col['name'] . '</th>';
+    }
+    $html .= '</tr></thead>';
+
+    $html .= '<tbody>';
     foreach($dataset as $row) {
         $html .= '<tr>';
         for ($i = 0; $i < (count(value:$row)/2); $i++) {
@@ -8,6 +18,7 @@ function toonTabelInhoud($dataset): string {
     }
     $html .= '</tr>';
 }
+$html .= '</tbody>';
 $html .= '<table>';
 return $html;
 }
