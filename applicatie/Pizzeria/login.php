@@ -14,9 +14,7 @@ if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
     $melding = 'User is logged in';
     $titel = "Welkom {$user}";
-    $html = '<form method="post" action="">
-        <input class="submit" type="submit" value="logout">
-        </form>';  
+    $html = '<a href="logout.php">Log Uit</a>';  
 } else {
     $html = ' <div>
             <h2>Inloggen</h2>
@@ -25,7 +23,7 @@ if (isset($_SESSION['login'])) {
         <input type="text" id="naam" name="naam" placeholder="Gebruikersnaam" required><br><br>
         <label for="pass">Wachtwoord</label>
         <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" required><br><br>
-        <input class="submit" type="submit" value="login">
+        <input class="submit" type="submit" value="login" name="login">
     </form>
         </div>
         <div>
@@ -67,6 +65,7 @@ if (isset($_POST['login'])) {
             if (password_verify($password, $rij['password'])) {
                 $melding = 'combination correct';
                 $_SESSION['login'] = $username;
+                echo "<meta http-equiv='refresh' content='0'>";
             } else {
                 $melding = 'password not found';
             }
@@ -74,10 +73,6 @@ if (isset($_POST['login'])) {
             $melding = 'username not found';
         }
     }
-}
-
-if (isset($_POST['logout'])) {
-    session_destroy();
 }
 ?>
 <!DOCTYPE html>
