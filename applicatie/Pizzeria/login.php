@@ -1,10 +1,12 @@
 <?php
 
 require_once 'library/db_connectie.php';
+
 session_start();
 $melding = '';
 $titel = 'Ristorante Italiano';
 $html = '';
+$rmelding = '';
 function sanitize($value): string
 {
     return htmlspecialchars(strip_tags($value));
@@ -29,20 +31,19 @@ if (isset($_SESSION['login'])) {
         <div>
             <h2>Registreren</h2>
             <form method="post" action="">
-                <label for="mailadres">E-mailadres</label>
-                <input type="text" id="mailadres" name="mailadres" placeholder="E-mailadres" required><br><br>
+                <label for="naam">Gebruikersnaam</label>
+                <input type="text" id="naam" name="naam" placeholder="Gebruikersnaam" required><br><br>
                 <label for="wachtwoord">Kies uw wachtwoord (min. 8 tekens)</label>
                 <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" minlength="8" maxlength="20" required><br><br>
                 <label for="bwachtwoord">Bevestig wachtwoord</label>
-                <input type="password" id="bwachtwoord" name="bwachtwoord" placeholder="Wachtwoord" minlength="8" maxlength="20" required><br><br>
-                <label for="strhuis">Straat en huisnummer</label>
-                <input type="text" id="strhuis" name="strhuis" placeholder="Bijv. Parkweide 14" required><br><br>
-                <label for="postcode">Postcode</label>
-                <input type="text" id="postcode" name="postcode" placeholder="Bijv. 6718DJ" maxlength="6" required><br><br>
-                <label for="plaats">Plaats</label>
-                <input type="text" id="plaats" name="plaats" placeholder="Bijv. Ede" required><br><br>
-
-                <input class="submit" type="submit" value="Registreren" onclick="">
+                <input type="password" id="bwachtwoord" name="bwachtwoord" placeholder="Bevestig Wachtwoord" minlength="8" maxlength="20"><br><br>
+                <label for="adres">Adres</label>
+                <input type="text" id="adres" name="adres" placeholder="Bijv. Parkweide 14 6718DJ Ede" required><br><br>
+                <label for="fname">Voornaam</label>
+                <input type="text" id="fname" name="fname" placeholder="Voornaam" required><br><br>
+                <label for="lname">Achternaam</label>
+                <input type="text" id="lname" name="lname" placeholder="Achternaam" required><br><br>
+                <input class="submit" type="submit" name="registreren" value="registreren">
             </form>
         </div>';
 }
@@ -55,7 +56,7 @@ if (isset($_POST['login'])) {
         $melding = 'missing username or password';
     } else {
         $db = maakVerbinding();
-        $sql = 'SELECT * FROM LOGIN WHERE username = :username';
+        $sql = 'SELECT * FROM [User] WHERE username = :username';
         $query = $db->prepare($sql);
         $data = $query->execute(array(
             'username' => $username
@@ -71,6 +72,38 @@ if (isset($_POST['login'])) {
             }
         } else {
             $melding = 'username not found';
+        }
+    }
+}
+
+if (isset($_POST['registreren'])) {
+    $username = isset($_POST['naam']) ? sanitize($_POST['naam']) : null;
+    $password = isset($_POST['wachtwoord']) ? sanitize($_POST['wachtwoord']) : null;
+    $adress = isset($_POST['adres']) ? sanitize($_POST['adres']) : null;
+    $fname = isset($_POST['fname']) ? sanitize($_POST['fname']) : null;
+    $lname = isset($_POST['lname']) ? sanitize($_POST['lname']) : null;
+    $client = 'Client';
+    
+    if ($username === null || $password === null || $adress === null || $fname === null || $lname === null) {
+        $melding = 'Er ontbreekt informatie, uw registratie is mislukt.';
+    } else {
+    $passwordhash = password_hash($password, PASSWORD_DEFAULT);
+
+    $db = maakVerbinding();
+    $sql = "insert into [User] (username, password, first_name, last_name, address, role) values (:username, :passwordhash, :fname, :lname, :address, 'Client')";
+    $query = $db->prepare($sql);
+    $succes = $query->execute(array(
+        'username' => $username,
+        'password' => $passwordhash,
+        'first_name' => $fname,
+        'last_name' => $lname,
+        'address' => $adress,
+        'role' => $client,
+    ));
+    if ($succes) {
+        $melding = "gebruiker geregistreerd";
+    } else {
+        $melding = "registratie mislukt";
         }
     }
 }
