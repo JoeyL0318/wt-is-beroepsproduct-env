@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/style.css">
+        <title>Winkelwagen - Sole Machina</title>
+    </head>
+    <body class="grid-container">
+        <header>
+    <h1>Sole Machina</h1>
+    <h3>-Ristorante Italiano-</h3>
+        </header>
+        <nav>
+    <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="winkelwagen.html">Winkelwagen</a></li>
+        <li><a href="login.html">Account</a></li>
+        <li><a href="bestelling.html">Mijn Order</a></li>
+        <li><a href="about.html">Over ons</a></li>
+        <li id="righttab"><a href="index.html">Home</a></li>
+    </ul>
+        </nav>
+    <main>
+        <h2>Uw winkelwagen</h2>
+        <p>Op dit moment is uw winkelwagen leeg <a class = inlinehref href="menu.html">bekijk het menu en voeg items toe!</a></p>
+        <div class="cart">
+                <p class="producttitel">Pizza Margherita</p>
+                <img class="productfoto" src="images/pizzamarg.png" alt="pizza Margherita">
+                <p class="productprijs">€9,00</p>
+                <form>
+                <label for="amount">Aantal</label>
+                <select id="amount" name="amount">
+                <option value="one">1</option>
+                <option value="two">2</option>
+                <option value="thr">3</option>
+                <option value="fou">4</option>
+                <option value="fiv">5</option>
+                <option value="six">6</option>
+                <option value="sev">7</option>
+                <option value="eig">8</option>
+                <option value="nin">9</option>
+                <option value="ten">10</option>
+                </select>
+                </form>
+        </div>
+        <div class="cart">
+            <p class="producttitel">Pizza Marinara</p>
+            <img class="productfoto" src="images/pizzamarina.png" alt="pizza Marinara">
+            <p class="productprijs">€9,00</p>
+            <form>
+            <label for="amount">Aantal</label>
+            <select id="amount" name="amount">
+            <option value="one">1</option>
+            <option value="two">2</option>
+            <option value="thr">3</option>
+            <option value="fou">4</option>
+            <option value="fiv">5</option>
+            <option value="six">6</option>
+            <option value="sev">7</option>
+            <option value="eig">8</option>
+            <option value="nin">9</option>
+            <option value="ten">10</option>
+            </select>
+            </form>
+    </div>
+    </main>
+    <footer>
+        <a class="basicback" href="betaling.html"><h2>Bestelling afronden</h2></a>
+    </footer>
+</body>
+</html>
