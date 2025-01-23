@@ -24,11 +24,13 @@ if (isset($_SESSION['login'])) {
 
 if (isset($_GET['statuscheck'])) {
     $orderid = isset($_GET['ordernr']) ? sanitize($_GET['ordernr']) : null;
-    if ($_GET['ordernr' === null]) {
+    if ($_GET['ordernr'] === null) {
         $melding = 'Vul een ordernummer in.';
     } else {
         $db = maakVerbinding();
-        $sql = 'SELECT * FROM Pizza_order WHERE order_id = :orderid';
+        $sql = 'SELECT *
+                FROM Pizza_Order
+                WHERE order_id = :orderid';
         $query = $db->prepare($sql);
         $data = $query->execute(array(
             'orderid' => $orderid

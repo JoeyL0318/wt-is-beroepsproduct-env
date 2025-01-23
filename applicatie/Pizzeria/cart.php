@@ -3,10 +3,39 @@ session_start();
 require_once 'library/db_connectie.php';
 
 $titel = 'Ristorante Italiano';
-
+$html = '';
 if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
     $titel = "Welkom {$user}";
+}
+echo $_SESSION['pizmar'];
+
+if (isset($_SESSION['pizmar'])) {
+    if ($_SESSION['pizmar'] >= 1) {
+        $totprijs = $_SESSION['pizmar'] * 9;
+        $html .= '
+        <div class="cart">
+            <p class="producttitel">Pizza Marinara</p>
+            <img class="productfoto" src="images/pizzamarina.png" alt="pizza Marinara">
+            <p class="productprijs">€ $totprijs </p>
+            <form>
+            <label for="amount">Aantal</label>
+            <select id="amount" name="amount">
+            <option value="one">1</option>
+            <option value="two">2</option>
+            <option value="thr">3</option>
+            <option value="fou">4</option>
+            <option value="fiv">5</option>
+            <option value="six">6</option>
+            <option value="sev">7</option>
+            <option value="eig">8</option>
+            <option value="nin">9</option>
+            <option value="ten">10</option>
+            </select>
+            </form>
+    </div>
+        ';
+    }
 }
 
 ?>
@@ -37,47 +66,8 @@ if (isset($_SESSION['login'])) {
         </nav>
     <main>
         <h2>Uw winkelwagen</h2>
-        <p>Op dit moment is uw winkelwagen leeg <a class = inlinehref href="menu.html">bekijk het menu en voeg items toe!</a></p>
-        <div class="cart">
-                <p class="producttitel">Pizza Margherita</p>
-                <img class="productfoto" src="images/pizzamarg.png" alt="pizza Margherita">
-                <p class="productprijs">€9,00</p>
-                <form>
-                <label for="amount">Aantal</label>
-                <select id="amount" name="amount">
-                <option value="one">1</option>
-                <option value="two">2</option>
-                <option value="thr">3</option>
-                <option value="fou">4</option>
-                <option value="fiv">5</option>
-                <option value="six">6</option>
-                <option value="sev">7</option>
-                <option value="eig">8</option>
-                <option value="nin">9</option>
-                <option value="ten">10</option>
-                </select>
-                </form>
-        </div>
-        <div class="cart">
-            <p class="producttitel">Pizza Marinara</p>
-            <img class="productfoto" src="images/pizzamarina.png" alt="pizza Marinara">
-            <p class="productprijs">€9,00</p>
-            <form>
-            <label for="amount">Aantal</label>
-            <select id="amount" name="amount">
-            <option value="one">1</option>
-            <option value="two">2</option>
-            <option value="thr">3</option>
-            <option value="fou">4</option>
-            <option value="fiv">5</option>
-            <option value="six">6</option>
-            <option value="sev">7</option>
-            <option value="eig">8</option>
-            <option value="nin">9</option>
-            <option value="ten">10</option>
-            </select>
-            </form>
-    </div>
+        <p>Op dit moment is uw winkelwagen leeg <a class = inlinehref href="menu.php">bekijk het menu en voeg items toe!</a></p>
+        <?=$html?>
     </main>
     <footer>
         <a class="basicback" href="pay.php"><h2>Bestelling afronden</h2></a>

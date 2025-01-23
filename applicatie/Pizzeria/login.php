@@ -13,7 +13,7 @@ function sanitize($value): string
 
 if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
-    $melding = 'User is logged in';
+    $melding = 'User is logged in <br>';
     $titel = "Welkom {$user}";
     $html = '<a href="logout.php">Log Uit</a>';  
 
@@ -37,8 +37,7 @@ if (isset($_SESSION['login'])) {
             $statusomschr = 'Bezorgd';
         }
         foreach ($rij as $order) {
-            $html .= '
-        <div class="order">
+            $html .= '<div class="order">
         <h2>Bestelling <?=$order_id?> </h2>
         <p>Status: <?=$statusomschr?></p>
         <p>Besteld op: <?=$normaldate?></p>
@@ -91,8 +90,9 @@ if (isset($_POST['login'])) {
 
         if ($rij = $query->fetch()) {
             if (password_verify($password, $rij['password'])) {
-                $melding = 'combination correct';
+                $rol = $rij['role'];
                 $_SESSION['login'] = $username;
+                $_SESSION['role'] = $rol;
                 echo "<meta http-equiv='refresh' content='0'>";
             } else {
                 $melding = 'password not found';

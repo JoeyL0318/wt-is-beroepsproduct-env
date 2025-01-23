@@ -1,3 +1,58 @@
+<?php 
+session_start();
+require_once 'library/db_connectie.php';
+
+$titel = '';
+$melding = '';
+$order_id = '';
+$adres = '';
+$statusomschr = '';
+$normaldate = '';
+$html = '';
+
+
+function sanitize($value): string
+{
+    return htmlspecialchars(strip_tags($value));
+}
+
+if (isset($_SESSION['login'])) {
+    $user = $_SESSION['login'];
+    $titel = "Welkom {$user}";
+} else {
+    header('location: staff.php');
+}
+
+
+if (isset($_GET['statuscheck'])) {
+    $orderid = isset($_GET['ordernr']) ? sanitize($_GET['ordernr']) : null;
+    if ($_GET['ordernr' === null]) {
+        $melding = 'Vul een ordernummer in.';
+    } else {
+        $db = maakVerbinding();
+        $sql = 'SELECT * FROM Pizza_order WHERE order_id = :orderid';
+        $query = $db->prepare($sql);
+        $data = $query->execute(array(
+            'orderid' => $orderid
+        ));
+        if ($rij = $query->fetch()) {
+            $order_id = $rij['order_id'];
+            $status = $rij['status'];
+            $adres = $rij['address'];
+            $date = strtotime($rij['datetime']);
+            $normaldate = date('j F Y, H:i',$date);
+            if ($status == 1) {
+                $statusomschr = 'Ontvangen';
+            } elseif ($status == 2) {
+                $statusomschr = 'Bezorger onderweg';
+            } elseif ($status == 3) {
+                $statusomschr = 'Bezorgd';
+            }
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
