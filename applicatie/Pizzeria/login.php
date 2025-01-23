@@ -77,27 +77,28 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_POST['registreren'])) {
+    session_destroy();
     $username = isset($_POST['naam']) ? sanitize($_POST['naam']) : null;
     $password = isset($_POST['wachtwoord']) ? sanitize($_POST['wachtwoord']) : null;
-    $adress = isset($_POST['adres']) ? sanitize($_POST['adres']) : null;
+    $address = isset($_POST['adres']) ? sanitize($_POST['adres']) : null;
     $fname = isset($_POST['fname']) ? sanitize($_POST['fname']) : null;
     $lname = isset($_POST['lname']) ? sanitize($_POST['lname']) : null;
     $client = 'Client';
     
-    if ($username === null || $password === null || $adress === null || $fname === null || $lname === null) {
+    if ($username === null || $password === null || $address === null || $fname === null || $lname === null) {
         $melding = 'Er ontbreekt informatie, uw registratie is mislukt.';
     } else {
     $passwordhash = password_hash($password, PASSWORD_DEFAULT);
 
     $db = maakVerbinding();
-    $sql = "insert into [User] (username, password, first_name, last_name, address, role) values (:username, :passwordhash, :fname, :lname, :address, 'Client')";
+    $sql = "insert into [User] (username, password, first_name, last_name, address, role) values (:username, :password, :fname, :lname, :address, :role)";
     $query = $db->prepare($sql);
     $succes = $query->execute(array(
         'username' => $username,
         'password' => $passwordhash,
-        'first_name' => $fname,
-        'last_name' => $lname,
-        'address' => $adress,
+        'fname' => $fname,
+        'lname' => $lname,
+        'address' => $address,
         'role' => $client,
     ));
     if ($succes) {
