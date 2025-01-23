@@ -51,6 +51,20 @@ if (isset($_GET['manageorder'])) {
         }
     }
 }
+
+if (isset($_POST['updstatus'])) {
+    $status = $_POST['orderstatus'];
+    $db = maakVerbinding();
+    $sql = 'UPDATE Pizza_Order
+            SET status = :status
+            WHERE order_id = :orderid';
+    $query = $db->prepare($sql);
+    $result = $query->execute(array(
+        'orderid' => $orderid,
+        'status' => $status
+    ));
+    echo "<meta http-equiv='refresh' content='0'>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +115,7 @@ if (isset($_GET['manageorder'])) {
             </form>
             <div class="persgrid">
                 <p class="ordernr"> Nr: <?=$order_id?></p>
-                <form class="ordertijd">
+                <form class="ordertijd" method="post">
                     <label for="orderstatus">Status:</label>
                     <select id="orderstatus" name="orderstatus">
                     <option value="1">Ontvangen</option>
