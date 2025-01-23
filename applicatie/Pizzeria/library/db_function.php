@@ -52,5 +52,9 @@ function getGenreSelectBox($selection)
     return $selectbox;
 }
 
+function sanitize($value): string
+{
+    return htmlspecialchars(strip_tags($value));
+}
 
 ?>

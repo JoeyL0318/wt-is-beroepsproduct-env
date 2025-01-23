@@ -1,15 +1,12 @@
 <?php
 
 require_once 'library/db_connectie.php';
+require_once 'library/db_function.php';
 
 session_start();
 $melding = '';
 $titel = 'Ristorante Italiano';
-$html = '';
-function sanitize($value): string
-{
-    return htmlspecialchars(strip_tags($value));
-}
+$html = "";
 
 if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
@@ -23,12 +20,15 @@ if (isset($_SESSION['login'])) {
     $data = $query->execute(array(
         'user' => $user
     ));
-    if ($rij = $query->fetch()) {
-        $order_id = $rij['order_id'];
-        $status = $rij['status'];
-        $adres = $rij['address'];
-        $date = strtotime($rij['datetime']);
+    $rij = $query->fetchAll();
+    if ($rij) {
+        foreach ($rij as $order) {
+        $order_id = $order['order_id'];
+        $status = $order['status'];
+        $adres = $order['address'];
+        $date = strtotime($order['datetime']);
         $normaldate = date('j F Y, H:i',$date);
+        
         if ($status == 1) {
             $statusomschr = 'Ontvangen';
         } elseif ($status == 2) {
@@ -36,12 +36,11 @@ if (isset($_SESSION['login'])) {
         } elseif ($status == 3) {
             $statusomschr = 'Bezorgd';
         }
-        foreach ($rij as $order) {
             $html .= '<div class="order">
-        <h2>Bestelling <?=$order_id?> </h2>
-        <p>Status: <?=$statusomschr?></p>
-        <p>Besteld op: <?=$normaldate?></p>
-        <p>Adres: <?=$adres?></p>
+        <h2>Bestelling ' . $order_id . '</h2>
+        <p>Status: ' . $statusomschr . '</p>
+        <p>Besteld op: ' . $normaldate . '</p>
+        <p>Adres: ' . $adres . '</p>
     </div>';
         }
     }

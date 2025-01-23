@@ -1,6 +1,7 @@
 <?php 
 session_start();
 require_once 'library/db_connectie.php';
+require_once 'library/db_function.php';
 
 $titel = 'Ristorante Italiano';
 $melding = '';
@@ -9,12 +10,6 @@ $adres = '';
 $statusomschr = '';
 $normaldate = '';
 $html = '';
-
-
-function sanitize($value): string
-{
-    return htmlspecialchars(strip_tags($value));
-}
 
 if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
@@ -77,7 +72,6 @@ if (isset($_GET['statuscheck'])) {
     <li><a href="about.php">Over ons</a></li>
     <li id="righttab"><a href="index.php">Home</a></li>
 </ul>
-
     </nav>
     <main>
         <h2>Bekijk de status van uw bestelling</h2>
