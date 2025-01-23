@@ -1,3 +1,15 @@
+<?php 
+session_start();
+require_once 'library/db_connectie.php';
+
+$titel = 'Ristorante Italiano';
+
+if (isset($_SESSION['login'])) {
+    $user = $_SESSION['login'];
+    $titel = "Welkom {$user}";
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +23,7 @@
     <body class="grid-container">
         <header>
     <h1>Sole Machina</h1>
-    <h3>-Ristorante Italiano-</h3>
+    <h3><?=$titel?></h3>
         </header>
         <nav>
     <ul>
@@ -68,7 +80,7 @@
     </div>
     </main>
     <footer>
-        <a class="basicback" href="betaling.html"><h2>Bestelling afronden</h2></a>
+        <a class="basicback" href="pay.php"><h2>Bestelling afronden</h2></a>
     </footer>
 </body>
 </html>

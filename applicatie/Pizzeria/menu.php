@@ -1,3 +1,30 @@
+<?php 
+session_start();
+require_once 'library/db_connectie.php';
+
+$titel = 'Ristorante Italiano';
+$melding = '';
+
+if (isset($_SESSION['login'])) {
+    $user = $_SESSION['login'];
+    $titel = "Welkom {$user}";
+}
+
+if (isset($_POST['pizmar'])) {
+    $button = $_POST['pizmar'];
+
+    if (!isset($_SESSION[$knop])) {
+        $_SESSION[$knop] = 0;
+    }
+    if ($_SESSION[$knop] < 11) {
+    $_SESSION[$knop]++; 
+    } else {
+        $melding = 'Maximaal aantal van dit item bereikt';
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +38,7 @@
 <body class="grid-container">
     <header>
 <h1>Sole Machina</h1>
-<h3>-Ristorante Italiano-</h3>
+<h3><?=$titel?></h3>
     </header>
     <nav>
 <ul>
@@ -24,13 +51,16 @@
 </ul>
     </nav>
     <main>
+        <?=$melding?>
         <h2>Pizza</h2>
         <div class="flex-container">
             <div class="menugrid">
                 <p class="producttitel">Pizza Margherita</p>
                 <p class="productdesc">Tomatensaus, kaas en basilicum</p>
                 <p class="productprijs">€9,00</p>
-                <button class="bestelknop">+</button>
+                <form method="post">
+                <button type="submit" class="bestelknop" name="pizmar">+</button>
+                </form>
                 <img class="productfoto" src="images/pizzamarg.png" alt="pizza Margherita">
             </div>
             <div class="menugrid">
@@ -51,7 +81,7 @@
                 <p class="producttitel">Pizza Napoli</p>
                 <p class="productdesc">Tomatensaus, kaas en ansjovis</p>
                 <p class="productprijs">€10,00</p>
-                <button class="bestelknop">+</button>
+                <button class="bestelknop" value="PIZNAP" name="PIZNAP" formmethod="POST">+</button>
                 <img class="productfoto" src="images/pizzamarg.png" alt="pizza napoli">
             </div>
             <div class="menugrid">
