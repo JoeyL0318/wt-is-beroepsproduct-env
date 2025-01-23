@@ -1,3 +1,11 @@
+<?php 
+session_start();
+$titel = 'Ristorante Italiano';
+if (isset($_SESSION['login'])) {
+    $user = $_SESSION['login'];
+    $titel = "Welkom {$user}";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +19,7 @@
 <body class="grid-container">
     <header>
 <h1>Sole Machina</h1>
-<h3>-Ristorante Italiano-</h3>
+<h3><?=$titel?></h3>
     </header>
     <nav>
 <ul>

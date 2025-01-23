@@ -24,9 +24,9 @@ if (isset($_SESSION['login'])) {
 }
 
 
-if (isset($_GET['statuscheck'])) {
+if (isset($_GET['manageorder'])) {
     $orderid = isset($_GET['ordernr']) ? sanitize($_GET['ordernr']) : null;
-    if ($_GET['ordernr' === null]) {
+    if ($_GET['ordernr'] === null) {
         $melding = 'Vul een ordernummer in.';
     } else {
         $db = maakVerbinding();
@@ -79,47 +79,42 @@ if (isset($_GET['statuscheck'])) {
 </ul>
     </nav>
     <main>
-            <h2>Welkom User</h2>
+            <h2><?=$titel?></h2>
+            <?=$melding?>
 <div class="LRgrid">
         <div class="links">
             <h3>Actuele Bestellingen</h3>
             <p>Er zijn op dit moment geen bestellingen</p>
             <div class="persgrid">
-                <p class="ordernr"> Nr: 82RTP1</p>
+                <p class="ordernr"> Nr: </p>
                 <p class="ordertijd">T: 18:00</p>
                 <P class="itemnaam">Pizza Margherita</p>
                 <p class="itemaantal">A: 1x</p>
-                <P class="orderextra">Opm: Deurbel is kapot</p>
-                <p class="ordertype">Type: Bezorging</p>
             </div>
         </div>
         <div class="rechts">
             <h3>Bestelling Beheren</h3>
             <form>
                 <label for="ordernr">Ordernummer</label>
-                <input type="text" id="ordernr" name="ordernr" placeholder="Ordernummer" required maxlength="6" minlength="6"><br><br>
-                <input class="submit" type="submit" value="Beheer bestelling" onclick="">
+                <input type="text" id="ordernr" name="ordernr" placeholder="Ordernummer" required maxlength="6"><br><br>
+                <input class="submit" type="submit" value="Beheer bestelling" name="manageorder">
             </form>
             <div class="persgrid">
-                <p class="ordernr"> Nr: 82RTP1</p>
+                <p class="ordernr"> Nr: <?=$order_id?></p>
                 <form class="ordertijd">
                     <label for="orderstatus">Status:</label>
                     <select id="orderstatus" name="orderstatus">
-                    <option value="ONT">Ontvangen</option>
-                    <option value="BER">In de oven</option>
-                    <option value="ONDW">Onderweg</option>
-                    <option value="DEL">Bezorgd</option>
-                    <option value="AFH">Klaar voor afhalen</option>
-                    <input class="submit" type="submit" value="Status Bijwerken" onclick="">
+                    <option value="1">Ontvangen</option>
+                    <option value="2">Onderweg</option>
+                    <option value="3">Bezorgd</option>
+                    <input class="submit" type="submit" value="Status Bijwerken" name="updstatus">
                 </select>
                 </form>
-                <P class="itemnaam">MAIL</p>
                     <div class="orderextra">
-                        <p>ADRES</p>
-                        <p>POSTCODE</p>
-                        <p>PLAATS</p>
+                        <p><?=$adres?></p>
+                        <p><?=$normaldate?></p>
+                        <p><?=$statusomschr?></p>
                     </div>
-                <p class="ordertype">TYPE</p>
             </div>
         </div>
     </div>
