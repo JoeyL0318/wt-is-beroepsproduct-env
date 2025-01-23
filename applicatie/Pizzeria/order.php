@@ -1,12 +1,53 @@
 <?php 
 session_start();
+require_once 'library/db_connectie.php';
+
 $titel = 'Ristorante Italiano';
+$melding = '';
+$order_id = '';
+$adres = '';
+$statusomschr = '';
+$normaldate = '';
+$html = '';
+
+
+function sanitize($value): string
+{
+    return htmlspecialchars(strip_tags($value));
+}
 
 if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
     $titel = "Welkom {$user}";
+}
 
-    
+
+if (isset($_GET['statuscheck'])) {
+    $orderid = isset($_GET['ordernr']) ? sanitize($_GET['ordernr']) : null;
+    if ($_GET['ordernr' === null]) {
+        $melding = 'Vul een ordernummer in.';
+    } else {
+        $db = maakVerbinding();
+        $sql = 'SELECT * FROM Pizza_order WHERE order_id = :orderid';
+        $query = $db->prepare($sql);
+        $data = $query->execute(array(
+            'orderid' => $orderid
+        ));
+        if ($rij = $query->fetch()) {
+            $order_id = $rij['order_id'];
+            $status = $rij['status'];
+            $adres = $rij['address'];
+            $date = strtotime($rij['datetime']);
+            $normaldate = date('j F Y, H:i',$date);
+            if ($status == 1) {
+                $statusomschr = 'Ontvangen';
+            } elseif ($status == 2) {
+                $statusomschr = 'Bezorger onderweg';
+            } elseif ($status == 3) {
+                $statusomschr = 'Bezorgd';
+            }
+        }
+    }
 }
 ?>
 
@@ -38,22 +79,19 @@ if (isset($_SESSION['login'])) {
     </nav>
     <main>
         <h2>Bekijk de status van uw bestelling</h2>
-        <form>
+        <form method="" action="">
             <label for="ordernr">Uw ordernummer</label>
-                <input type="text" id="ordernr" name="ordernr" placeholder="Bijv. 82RTP1" required minlength="6" maxlength="6"><br><br>
-                <input class="submit" type="submit" value="Bekijk status">
+                <input type="text" id="ordernr" name="ordernr" placeholder="Bijv. 82RTP1" required maxlength="6"><br><br>
+                <input class="submit" type="submit" value="statuscheck" name="statuscheck">
         </form>
         <p>Kunt u uw ordernummer niet vinden? Bel ons restaurant en wij helpen u graag!</p>
         <p><a href="tel:031803292309">0318-0329-2309</a></p>
     </main>
-    <footer>
-        <h2>Bestelling 82RTP1</h2>
-        <p>Status: ontvangen</p>
-        <p>Type: Bezorging</p>
-        <p>Tijd: 18:00</p>
-        <p>Ruitenberglaan 26</p>
-        <p>6826CC</p>
-        <p>Arnhem</p>
+    <footer class="order">
+        <h2>Bestelling <?=$order_id?> </h2>
+        <p>Status: <?=$statusomschr?></p>
+        <p>Besteld op: <?=$normaldate?></p>
+        <p>Adres: <?=$adres?></p>
     </footer>
 </body>
 </html>

@@ -9,7 +9,7 @@ main {
 nav {
     grid-area: menu;
 }
-footer {
+footer, #order {
     color: #FFFFFF;
     grid-area: footer;
     border-radius: 20px;

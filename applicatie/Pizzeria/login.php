@@ -16,6 +16,36 @@ if (isset($_SESSION['login'])) {
     $melding = 'User is logged in';
     $titel = "Welkom {$user}";
     $html = '<a href="logout.php">Log Uit</a>';  
+
+    $db = maakVerbinding();
+    $sql = 'SELECT * FROM Pizza_order WHERE client_username = :user';
+    $query = $db->prepare($sql);
+    $data = $query->execute(array(
+        'user' => $user
+    ));
+    if ($rij = $query->fetch()) {
+        $order_id = $rij['order_id'];
+        $status = $rij['status'];
+        $adres = $rij['address'];
+        $date = strtotime($rij['datetime']);
+        $normaldate = date('j F Y, H:i',$date);
+        if ($status == 1) {
+            $statusomschr = 'Ontvangen';
+        } elseif ($status == 2) {
+            $statusomschr = 'Bezorger onderweg';
+        } elseif ($status == 3) {
+            $statusomschr = 'Bezorgd';
+        }
+        foreach ($rij as $order) {
+            $html .= '
+        <div class="order">
+        <h2>Bestelling <?=$order_id?> </h2>
+        <p>Status: <?=$statusomschr?></p>
+        <p>Besteld op: <?=$normaldate?></p>
+        <p>Adres: <?=$adres?></p>
+    </div>';
+        }
+    }
 } else {
     $html = ' <div>
             <h2>Inloggen</h2>
