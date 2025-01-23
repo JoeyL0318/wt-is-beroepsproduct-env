@@ -15,12 +15,12 @@
     </header>
     <nav>
 <ul>
-    <li><a href="menu.html">Menu</a></li>
-    <li><a href="winkelwagen.html">Winkelwagen</a></li>
+    <li><a href="menu.php">Menu</a></li>
+    <li><a href="cart.php">Winkelwagen</a></li>
     <li><a href="login.php">Account</a></li>
-    <li><a href="bestelling.html">Mijn Order</a></li>
-    <li><a href="about.html">Over ons</a></li>
-    <li id="righttab"><a href="personeel.html">Personeel</a></li>
+    <li><a href="order.php">Mijn Order</a></li>
+    <li><a href="about.php">Over ons</a></li>
+    <li id="righttab"><a href="staff.php">Personeel</a></li>
 </ul>
     </nav>
     <main class="flex-container">

@@ -6,7 +6,6 @@ session_start();
 $melding = '';
 $titel = 'Ristorante Italiano';
 $html = '';
-$rmelding = '';
 function sanitize($value): string
 {
     return htmlspecialchars(strip_tags($value));
@@ -75,7 +74,6 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_POST['registreren'])) {
-    session_destroy();
     $username = isset($_POST['naam']) ? sanitize($_POST['naam']) : null;
     $password = isset($_POST['wachtwoord']) ? sanitize($_POST['wachtwoord']) : null;
     $address = isset($_POST['adres']) ? sanitize($_POST['adres']) : null;
@@ -125,12 +123,12 @@ if (isset($_POST['registreren'])) {
     </header>
     <nav>
 <ul>
-    <li><a href="menu.html">Menu</a></li>
+    <li><a href="menu.php">Menu</a></li>
     <li><a href="cart.php">Winkelwagen</a></li>
-    <li><a href="login.html">Account</a></li>
-    <li><a href="bestelling.html">Mijn Order</a></li>
-    <li><a href="about.html">Over ons</a></li>
-    <li id="righttab"><a href="index.html">Home</a></li>
+    <li><a href="login.php">Account</a></li>
+    <li><a href="order.php">Mijn Order</a></li>
+    <li><a href="about.php">Over ons</a></li>
+    <li id="righttab"><a href="index.php">Home</a></li>
 </ul>
     </nav>
     <main>
