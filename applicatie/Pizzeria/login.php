@@ -35,8 +35,6 @@ if (isset($_SESSION['login'])) {
                 <input type="text" id="naam" name="naam" placeholder="Gebruikersnaam" required><br><br>
                 <label for="wachtwoord">Kies uw wachtwoord (min. 8 tekens)</label>
                 <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" minlength="8" maxlength="20" required><br><br>
-                <label for="bwachtwoord">Bevestig wachtwoord</label>
-                <input type="password" id="bwachtwoord" name="bwachtwoord" placeholder="Bevestig Wachtwoord" minlength="8" maxlength="20"><br><br>
                 <label for="adres">Adres</label>
                 <input type="text" id="adres" name="adres" placeholder="Bijv. Parkweide 14 6718DJ Ede" required><br><br>
                 <label for="fname">Voornaam</label>
@@ -102,11 +100,12 @@ if (isset($_POST['registreren'])) {
         'role' => $client,
     ));
     if ($succes) {
+        echo "<meta http-equiv='refresh' content='0'>";
         $melding = "gebruiker geregistreerd";
     } else {
         $melding = "registratie mislukt";
-        }
-    }
+         }
+     } 
 }
 ?>
 <!DOCTYPE html>
