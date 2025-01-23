@@ -1,6 +1,7 @@
 <?php 
 session_start();
 require_once 'library/db_connectie.php';
+require_once 'library/db_function.php';
 
 $titel = '';
 $melding = '';
@@ -9,12 +10,7 @@ $adres = '';
 $statusomschr = '';
 $normaldate = '';
 $html = '';
-
-
-function sanitize($value): string
-{
-    return htmlspecialchars(strip_tags($value));
-}
+$db = maakVerbinding();
 
 if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
@@ -29,7 +25,6 @@ if (isset($_GET['manageorder'])) {
     if ($_GET['ordernr'] === null) {
         $melding = 'Vul een ordernummer in.';
     } else {
-        $db = maakVerbinding();
         $sql = 'SELECT * FROM Pizza_order WHERE order_id = :orderid';
         $query = $db->prepare($sql);
         $data = $query->execute(array(
@@ -54,7 +49,6 @@ if (isset($_GET['manageorder'])) {
 
 if (isset($_POST['updstatus'])) {
     $status = $_POST['orderstatus'];
-    $db = maakVerbinding();
     $sql = 'UPDATE Pizza_Order
             SET status = :status
             WHERE order_id = :orderid';
@@ -64,6 +58,28 @@ if (isset($_POST['updstatus'])) {
         'status' => $status
     ));
     echo "<meta http-equiv='refresh' content='0'>";
+}
+
+$sql = 'SELECT order_id, datetime, address
+        FROM Pizza_Order';
+$query = $db->prepare($sql);
+$result = $query->execute();
+
+$rij = $query->fetchAll();
+if ($rij) {
+    foreach ($rij as $order) {
+        $order_id = $order['order_id'];
+        $adres = $order['address'];
+        $date = strtotime($order['datetime']);
+        $normaldate = date('j F Y, H:i',$date);
+            $html .= '
+            <div class="persgrid">
+                <p class="ordernr"> ' . $order_id . '</p>
+                <p class="ordertijd">T: ' . $normaldate . '</p>
+                <P class="itemnaam">Pizza Margherita</p>
+                <p class="itemaantal">A: 1x</p>
+            </div>';
+    }
 }
 ?>
 
@@ -96,15 +112,9 @@ if (isset($_POST['updstatus'])) {
             <h2><?=$titel?></h2>
             <?=$melding?>
 <div class="LRgrid">
-        <div class="links">
-            <h3>Actuele Bestellingen</h3>
-            <p>Er zijn op dit moment geen bestellingen</p>
-            <div class="persgrid">
-                <p class="ordernr"> Nr: </p>
-                <p class="ordertijd">T: 18:00</p>
-                <P class="itemnaam">Pizza Margherita</p>
-                <p class="itemaantal">A: 1x</p>
-            </div>
+    <div class="links">
+    <h3>Actuele Bestellingen</h3>
+        <?=$html?>
         </div>
         <div class="rechts">
             <h3>Bestelling Beheren</h3>
