@@ -8,7 +8,9 @@ if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
     $titel = "Welkom {$user}";
 }
-echo $_SESSION['pizmar'];
+if (isset($_SESSION['pizmar'])) {
+    echo $_SESSION['pizmar'];
+}
 
 if (isset($_SESSION['pizmar'])) {
     if ($_SESSION['pizmar'] >= 1) {
@@ -17,7 +19,7 @@ if (isset($_SESSION['pizmar'])) {
         <div class="cart">
             <p class="producttitel">Pizza Marinara</p>
             <img class="productfoto" src="images/pizzamarina.png" alt="pizza Marinara">
-            <p class="productprijs">€ $totprijs </p>
+            <p class="productprijs">€' . $totprijs . '</p>
             <form>
             <label for="amount">Aantal</label>
             <select id="amount" name="amount">

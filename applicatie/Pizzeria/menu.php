@@ -11,7 +11,7 @@ if (isset($_SESSION['login'])) {
 }
 
 if (isset($_POST['pizmar'])) {
-    $button = $_POST['pizmar'];
+    $knop = $_POST['pizmar'];
 
     if (!isset($_SESSION[$knop])) {
         $_SESSION[$knop] = 0;
