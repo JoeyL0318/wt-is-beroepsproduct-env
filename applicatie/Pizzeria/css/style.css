@@ -183,8 +183,7 @@ button:hover {
     text-align: left;
     grid-template-areas: 
     'header header right'
-    'main main bottom'
-    'footer footer desc';
+    'main main main';
     background-color: #444;
     color:#fff;
     border-radius: 10px;
@@ -202,15 +201,6 @@ button:hover {
 .ordertijd {
     grid-area: right;
     font-weight: bold;
-}
-.itemaantal {
-    grid-area: bottom;
-}
-.orderextra {
-    grid-area: footer;
-}
-.ordertype {
-    grid-area: desc;
 }
 
 @media only screen and (max-width: 600px) {

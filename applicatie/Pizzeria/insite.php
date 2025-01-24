@@ -10,6 +10,7 @@ $adres = '';
 $statusomschr = '';
 $normaldate = '';
 $html = '';
+$html1 = '';
 $db = maakVerbinding();
 
 if (isset($_SESSION['login'])) {
@@ -84,13 +85,29 @@ if ($rij) {
         $adres = $order['address'];
         $date = strtotime($order['datetime']);
         $normaldate = date('j F Y, H:i',$date);
-            $html .= '
-            <div class="persgrid">
+        
+        $html .= '  <div class="persgrid">
                 <p class="ordernr"> ' . $order_id . '</p>
-                <p class="ordertijd">T: ' . $normaldate . '</p>
-                <P class="itemnaam">Pizza Margherita</p>
-                <p class="itemaantal">A: 1x</p>
-            </div>';
+                <p class="ordertijd">T: ' . $normaldate . '</p>';
+            $html1 = '';
+            $sql3 = 'SELECT *
+            FROM Pizza_Order_Product
+            WHERE order_id = :orderid';
+            $query3 = $db->prepare($sql3);
+            $result2 = $query3->execute(array(
+                'orderid' => $order_id
+            ));
+
+    $rij2 = $query3->fetchAll();
+        if ($rij2) {
+            foreach ($rij2 as $order2) {
+                $itemnaam = $order2['product_name'];
+                $aantal = $order2['quantity'];
+                $html1 .= $itemnaam . ' - ' . $aantal . '<br>';
+                }
+            }
+            $html .= $html1;
+            $html .= '</div>'; 
         }     
     }
 }
@@ -126,7 +143,7 @@ if ($rij) {
             <?=$melding?>
 <div class="LRgrid">
     <div class="links">
-    <h3>Actuele Bestellingen</h3>
+    <h3>Bestellingen</h3>
         <form method="">
             <input type="submit" class="submit" value="Bekijk alle bestellingen" name="actbestelling">
         </form>
