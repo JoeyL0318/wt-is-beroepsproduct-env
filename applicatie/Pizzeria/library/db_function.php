@@ -174,7 +174,9 @@ function addToCart($product) {
 }
 
 function removeOneFromCart($product) {
+    if ($_SESSION['cart'][$product]['quantity'] > 0) {
     $_SESSION['cart'][$product]['quantity']--;
+    }
 }
 function removeFromCart($product) {
     $_SESSION['cart'][$product]['quantity'] = 0;
