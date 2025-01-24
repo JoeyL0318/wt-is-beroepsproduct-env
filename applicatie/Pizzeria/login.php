@@ -48,9 +48,9 @@ if (isset($_SESSION['login'])) {
             <h2>Inloggen</h2>
     <form method="post" action="">
         <label for="naam">Gebruikersnaam</label>
-        <input type="text" id="naam" name="naam" placeholder="Gebruikersnaam" required><br><br>
+        <input type="text" id="name" name="name" placeholder="Gebruikersnaam" required><br><br>
         <label for="pass">Wachtwoord</label>
-        <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" required><br><br>
+        <input type="password" id="pass" name="pass" placeholder="Wachtwoord" required><br><br>
         <input class="submit" type="submit" value="login" name="login">
     </form>
         </div>
@@ -58,9 +58,9 @@ if (isset($_SESSION['login'])) {
             <h2>Registreren</h2>
             <form method="post" action="">
                 <label for="naam">Gebruikersnaam</label>
-                <input type="text" id="naam" name="naam" placeholder="Gebruikersnaam" required><br><br>
+                <input type="text" id="name" name="name" placeholder="Gebruikersnaam" required><br><br>
                 <label for="wachtwoord">Kies uw wachtwoord (min. 8 tekens)</label>
-                <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" minlength="8" maxlength="20" required><br><br>
+                <input type="password" id="pass" name="pass" placeholder="Wachtwoord" minlength="8" maxlength="20" required><br><br>
                 <label for="adres">Adres</label>
                 <input type="text" id="adres" name="adres" placeholder="Bijv. Parkweide 14 6718DJ Ede" required><br><br>
                 <label for="fname">Voornaam</label>
@@ -73,8 +73,8 @@ if (isset($_SESSION['login'])) {
 }
 
 if (isset($_POST['login'])) {
-    $username = isset($_POST['naam']) ? sanitize($_POST['naam']) : null;
-    $password = isset($_POST['wachtwoord']) ? sanitize($_POST['wachtwoord']) : null;
+    $username = isset($_POST['name']) ? sanitize($_POST['name']) : null;
+    $password = isset($_POST['pass']) ? sanitize($_POST['pass']) : null;
 
     if ($username === null || $password === null) {
         $notif = 'missing username or password';
@@ -102,8 +102,8 @@ if (isset($_POST['login'])) {
 }
 // registreren
 if (isset($_POST['registreren'])) {
-    $username = isset($_POST['naam']) ? sanitize($_POST['naam']) : null;
-    $password = isset($_POST['wachtwoord']) ? sanitize($_POST['wachtwoord']) : null;
+    $username = isset($_POST['name']) ? sanitize($_POST['name']) : null;
+    $password = isset($_POST['pass']) ? sanitize($_POST['pass']) : null;
     $address = isset($_POST['adres']) ? sanitize($_POST['adres']) : null;
     $fname = isset($_POST['fname']) ? sanitize($_POST['fname']) : null;
     $lname = isset($_POST['lname']) ? sanitize($_POST['lname']) : null;
