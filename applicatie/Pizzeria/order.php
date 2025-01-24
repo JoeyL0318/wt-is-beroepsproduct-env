@@ -3,19 +3,13 @@ session_start();
 require_once 'library/db_connectie.php';
 require_once 'library/db_function.php';
 
-$titel = 'Ristorante Italiano';
+$titel = titel();
 $melding = '';
 $order_id = '';
 $adres = '';
 $statusomschr = '';
 $normaldate = '';
 $html = '';
-
-if (isset($_SESSION['login'])) {
-    $user = $_SESSION['login'];
-    $titel = "Welkom {$user}";
-}
-
 
 if (isset($_GET['statuscheck'])) {
     $orderid = isset($_GET['ordernr']) ? sanitize($_GET['ordernr']) : null;
@@ -59,20 +53,7 @@ if (isset($_GET['statuscheck'])) {
     <title>Uw bestelling - Sole Machina</title>
 </head>
 <body class="grid-container">
-    <header>
-<h1>Sole Machina</h1>
-<h3><?=$titel?></h3>
-    </header>
-    <nav>
-<ul>
-    <li><a href="menu.php">Menu</a></li>
-    <li><a href="cart.php">Winkelwagen</a></li>
-    <li><a href="login.php">Account</a></li>
-    <li><a href="order.php">Mijn Order</a></li>
-    <li><a href="about.php">Over ons</a></li>
-    <li id="righttab"><a href="index.php">Home</a></li>
-</ul>
-    </nav>
+<?=include('header.php')?>
     <main>
         <h2>Bekijk de status van uw bestelling</h2>
         <form method="" action="">

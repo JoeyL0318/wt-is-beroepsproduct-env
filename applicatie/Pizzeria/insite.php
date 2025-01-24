@@ -74,7 +74,8 @@ if (isset($_GET['actbestelling'])) {
         unset($_GET['sactbestelling']);
     }
 $sql2 = 'SELECT order_id, datetime, address
-        FROM Pizza_Order';
+        FROM Pizza_Order
+        WHERE status = 1';
 $query2 = $db->prepare($sql2);
 $result = $query2->execute();
 

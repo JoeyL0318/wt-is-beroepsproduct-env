@@ -1,10 +1,9 @@
 <?php 
 session_start();
-$titel = 'Ristorante Italiano';
-if (isset($_SESSION['login'])) {
-    $user = $_SESSION['login'];
-    $titel = "Welkom {$user}";
-}
+
+require_once 'library/db_function.php';
+$titel = titel();
+
 ?>
 
 <!DOCTYPE html>
@@ -18,21 +17,7 @@ if (isset($_SESSION['login'])) {
     <title>Over ons - Sole Machina</title>
 </head>
 <body class="grid-container">
-    <header>
-<h1>Sole Machina</h1>
-<h3><?=$titel?></h3>
-    </header>
-    <nav>
-<ul>
-    <li><a href="menu.php">Menu</a></li>
-    <li><a href="cart.php">Winkelwagen</a></li>
-    <li><a href="login.php">Account</a></li>
-    <li><a href="order.php">Mijn Order</a></li>
-    <li><a href="about.php">Over ons</a></li>
-    <li id="righttab"><a href="index.php">Home</a></li>
-</ul>
-
-    </nav>
+    <?=include('header.php')?>
     <main class="middle">
         <h2>La nostra storia</h2>
         <p>In 1975 kwam ik naar Nederland vanuit Napoli, ik heb mijn liefde voor eten van mijn grootmoeder gekregen. 

@@ -5,13 +5,12 @@ require_once 'library/db_function.php';
 
 session_start();
 $melding = '';
-$titel = 'Ristorante Italiano';
+$titel = titel();
 $html = "";
 
 if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
     $melding = 'User is logged in <br>';
-    $titel = "Welkom {$user}";
     $html = '<a href="logout.php">Log Uit</a>';  
 
     $db = maakVerbinding();
@@ -146,20 +145,7 @@ if (isset($_POST['registreren'])) {
     <title>Log in - Sole Machina</title>
 </head>
 <body class="grid-container">
-    <header>
-<h1>Sole Machina</h1>
-<h3><?=$titel?></h3>
-    </header>
-    <nav>
-<ul>
-    <li><a href="menu.php">Menu</a></li>
-    <li><a href="cart.php">Winkelwagen</a></li>
-    <li><a href="login.php">Account</a></li>
-    <li><a href="order.php">Mijn Order</a></li>
-    <li><a href="about.php">Over ons</a></li>
-    <li id="righttab"><a href="index.php">Home</a></li>
-</ul>
-    </nav>
+<?=include('header.php')?>
     <main>
         <?= $melding?>
         <?=$html?>
