@@ -100,7 +100,68 @@ function orderDetails($orderid) {
         } else {
             $orderDetails['error'] = 'Geen bestelling gevonden';
         }
-        return $orderDetails;
-    }
+    return $orderDetails;
+}
 
+function productInfo($category) {
+    $menu[$category] = null;
+    $db = maakVerbinding();
+    $sql = 'SELECT name, price, type_id
+            FROM Product
+            WHERE type_id = :category';
+    $query = $db->prepare($sql);
+    $data = $query->execute(array(
+        'category' => $category
+    ));
+    $row = $query->fetchAll();
+    if ($row) {
+        foreach ($row as $product) {
+            $menu[$category][$product['name']] = [
+                'name' => $product['name'],
+                'price' => $product['price']
+            ];
+        }
+    }
+    return $menu;
+}
+
+function menuItem($category) {
+    $menu = productInfo($category);
+    $db = maakVerbinding();
+    $sql = 'SELECT ingredient_name FROM Product_Ingredient WHERE product_name = :name';
+    $html = '';
+    foreach($menu[$category] as $product) {
+        $desc = '';
+                $query = $db->prepare($sql);
+                $data = $query->execute(array(
+                    'name' => $product['name']
+                ));
+
+                $row = $query->fetchAll();
+                if ($row) {
+                    foreach ($row as $ingredient) {
+                        $desc .= $ingredient['ingredient_name'] . ' ';
+                    }
+                }
+
+             $html .= '<div class="menugrid">
+                <p class="producttitel">' . $product['name'] . '</p>
+                <p class="productdesc">' . $desc . '</p>
+                <p class="productprijs">' . $product['price'] . '</p>
+                <form method="post">
+                <select class="bestelknop" name="orderstatus">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                </select>
+                <input type="submit" class="productfoto" value="Toevoegen" name="' . $product['price'] . '"></input>
+                </form>
+            </div>';
+    }
+    return $html;
+}
 ?>

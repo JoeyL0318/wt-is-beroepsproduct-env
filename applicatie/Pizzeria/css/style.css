@@ -133,7 +133,7 @@ a.basicback:hover {
     align-items: center;
     grid-template-areas: 
     'header header header right right'
-    'main main main image image'
+    'main main main right right'
     'footer footer footer image image';
     grid-template-columns: 50px 50px 50px 50px 50px;
     grid-template-rows: 50px 50px 50px;
