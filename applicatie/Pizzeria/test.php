@@ -21,9 +21,6 @@ if (isset($_SESSION['login'])) {
 
 
 if (isset($_GET['manageorder'])) {
-    if(isset($_GET['actbestelling'])) {
-        unset($_GET['actbestelling']);
-    }
     $orderid = isset($_GET['ordernr']) ? sanitize($_GET['ordernr']) : null;
     if ($_GET['ordernr'] === null) {
         $melding = 'Vul een ordernummer in.';
@@ -62,38 +59,6 @@ if (isset($_POST['updstatus'])) {
     ));
     echo "<meta http-equiv='refresh' content='0'>";
 }
-
-if (isset($_GET['sactbestelling'])) {
-    if(isset($_GET['actbestelling'])) {
-        unset($_GET['actbestelling']);
-    }
-}
-if (isset($_GET['actbestelling'])) {
-    if(isset($_GET['sactbestelling'])) {
-        unset($_GET['sactbestelling']);
-    }
-$sql2 = 'SELECT order_id, datetime, address
-        FROM Pizza_Order';
-$query2 = $db->prepare($sql2);
-$result = $query2->execute();
-
-$rij = $query2->fetchAll();
-if ($rij) {
-    foreach ($rij as $order) {
-        $order_id = $order['order_id'];
-        $adres = $order['address'];
-        $date = strtotime($order['datetime']);
-        $normaldate = date('j F Y, H:i',$date);
-            $html .= '
-            <div class="persgrid">
-                <p class="ordernr"> ' . $order_id . '</p>
-                <p class="ordertijd">T: ' . $normaldate . '</p>
-                <P class="itemnaam">Pizza Margherita</p>
-                <p class="itemaantal">A: 1x</p>
-            </div>';
-        }     
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -127,12 +92,6 @@ if ($rij) {
 <div class="LRgrid">
     <div class="links">
     <h3>Actuele Bestellingen</h3>
-        <form method="">
-            <input type="submit" class="submit" value="Bekijk alle bestellingen" name="actbestelling">
-        </form>
-        <form method="">
-            <input type="submit" class="submit" value="stoppen" name="sactbestelling">
-        </form>
         <?=$html?>
         </div>
         <div class="rechts">
