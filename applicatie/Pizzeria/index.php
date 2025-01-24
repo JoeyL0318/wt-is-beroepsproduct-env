@@ -25,7 +25,7 @@ $subtitle = subtitle();
     <li><a href="login.php">Account</a></li>
     <li><a href="order.php">Mijn Order</a></li>
     <li><a href="about.php">Over ons</a></li>
-    <li id="righttab"><a href="staff.php">Personeel</a></li>
+    <li id="righttab"><a href="insite.php">Personeel</a></li>
 </ul>
     </nav>
     <main class="flex-container">

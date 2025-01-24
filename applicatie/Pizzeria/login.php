@@ -29,11 +29,11 @@ if (isset($_SESSION['login'])) {
         $normaldate = date('j F Y, H:i',$date);
         
         if ($status == 1) {
-            $statusomschr = 'Ontvangen';
+            $statusomschr = 'Ontvangen door het restaurant';
         } elseif ($status == 2) {
             $statusomschr = 'Bezorger onderweg';
         } elseif ($status == 3) {
-            $statusomschr = 'Bezorgd';
+            $statusomschr = 'Bezorgd op het opgegeven adres';
         }
             $html .= '<div class="order">
         <h2>Bestelling ' . $order_id . '</h2>

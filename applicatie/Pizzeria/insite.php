@@ -14,7 +14,11 @@ $html1 = '';
 $db = maakVerbinding();
 
 if (!isset($_SESSION['login'])) {
-    header('location: staff.php'); 
+    header('location: login.php'); 
+} else {
+    if ($_SESSION['role'] === 'Client') {
+        header('location: login.php'); 
+    }
 }
 
 if (isset($_GET['manageorder'])) {
@@ -52,7 +56,7 @@ if (isset($_GET['actbestelling'])) {
     if(isset($_GET['sactbestelling'])) {
         unset($_GET['sactbestelling']);
     }
-$sql2 = 'SELECT order_id, datetime, address
+$sql2 = 'SELECT order_id, datetime
         FROM Pizza_Order
         WHERE status = 1 OR status = 2';
 $query2 = $db->prepare($sql2);
@@ -69,7 +73,7 @@ if ($rij) {
                 <p class="ordernr">Nr: ' . $order_id . '</p>
                 <p class="ordertijd">Tijd: ' . $date . '</p>';
             $html1 = '';
-            $sql3 = 'SELECT *
+            $sql3 = 'SELECT product_name, quantity
             FROM Pizza_Order_Product
             WHERE order_id = :orderid';
             $query3 = $db->prepare($sql3);

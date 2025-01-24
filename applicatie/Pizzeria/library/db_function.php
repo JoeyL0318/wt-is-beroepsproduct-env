@@ -91,11 +91,11 @@ function orderDetails($orderid) {
             $orderDetails['datetime'] = date('j F Y, H:i',$date);
             $status = $rij['status'];
             if ($status == 1) {
-                $orderDetails['statusdesc'] = 'Ontvangen';
+                $orderDetails['statusdesc'] = 'Ontvangen door het restaurant';
             } elseif ($status == 2) {
                 $orderDetails['statusdesc'] = 'Bezorger onderweg';
             } elseif ($status == 3) {
-                $orderDetails['statusdesc'] = 'Bezorgd';
+                $orderDetails['statusdesc'] = 'Bezorgd op het opgegeven adres';
             }
         } else {
             $orderDetails['error'] = 'Geen bestelling gevonden';
