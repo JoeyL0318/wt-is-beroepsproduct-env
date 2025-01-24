@@ -3,12 +3,8 @@ session_start();
 require_once 'library/db_connectie.php';
 require_once 'library/db_function.php';
 
-$titel = 'Ristorante Italiano';
+$subtitle = subtitle();
 $html = showCart();
-if (isset($_SESSION['login'])) {
-    $user = $_SESSION['login'];
-    $titel = "Welkom {$user}";
-}
 //Extra toevoegen in winkelkar
 if (isset($_POST['Marg'])) {
     addToCart('Marg'); 
@@ -98,20 +94,7 @@ if (isset($_POST['oca'])) {
         <title>Winkelwagen - Sole Machina</title>
     </head>
     <body class="grid-container">
-        <header>
-    <h1>Sole Machina</h1>
-    <h3><?=$titel?></h3>
-        </header>
-        <nav>
-    <ul>
-    <li><a href="menu.php">Menu</a></li>
-    <li><a href="cart.php">Winkelwagen</a></li>
-    <li><a href="login.php">Account</a></li>
-    <li><a href="order.php">Mijn Order</a></li>
-    <li><a href="about.php">Over ons</a></li>
-    <li id="righttab"><a href="index.php">Home</a></li>
-    </ul>
-        </nav>
+    <?php include('header.php');?>
     <main>
         <h2>Uw winkelwagen</h2>
         <?=$html?>
