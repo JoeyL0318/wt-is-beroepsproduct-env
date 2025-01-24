@@ -5,24 +5,36 @@ require_once 'library/db_function.php';
 
 $subtitle = subtitle();
 
-if (isset($_POST['pizmar'])) {
-    $knop = $_POST['pizmar'];
-
-    if (!isset($_SESSION[$knop])) {
-        $_SESSION[$knop] = 0;
-    }
-    if ($_SESSION[$knop] < 11) {
-    $_SESSION[$knop]++; 
-    } else {
-        $melding = 'Maximaal aantal van dit item bereikt';
-    }
+if (isset($_POST['Marg'])) {
+    addToCart('Marg'); 
 }
+if (isset($_POST['Knof'])) {
+    addToCart('Knof'); 
+}
+if (isset($_POST['Hawa'])) {
+    addToCart('Hawa'); 
+}
+if (isset($_POST['Comb'])) {
+    addToCart('Comb'); 
+}
+if (isset($_POST['Pepp'])) {
+    addToCart('Pepp'); 
+}
+if (isset($_POST['Vege'])) {
+    addToCart('Vege'); 
+}
+if (isset($_POST['Spri'])) {
+    addToCart('Spri'); 
+}
+if (isset($_POST['Coca'])) {
+    addToCart('Coca'); 
+}
+
 
 $htmlp = menuItem('Pizza');
 $htmld = menuItem('Drank');
 $htmlm = menuItem('Maaltijd');
 $htmlv = menuItem('Voorgerecht');
-
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +48,7 @@ $htmlv = menuItem('Voorgerecht');
     <title>Menukaart - Sole Machina</title>
 </head>
 <body class="grid-container">
-<?=include('header.php')?>
+<?php include('header.php');?>
     <main>
         <h2>Pizza</h2>
         <div class="flex-container">

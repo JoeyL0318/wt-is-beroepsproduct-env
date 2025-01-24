@@ -144,8 +144,8 @@ if (isset($_POST['registreren'])) {
     <link rel="stylesheet" href="css/style.css">
     <title>Log in - Sole Machina</title>
 </head>
+<?php include('header.php');?>
 <body class="grid-container">
-<?=include('header.php')?>
     <main>
         <?= $melding?>
         <?=$html?>

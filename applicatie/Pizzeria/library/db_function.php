@@ -131,11 +131,17 @@ function menuItem($category) {
     $sql = 'SELECT ingredient_name FROM Product_Ingredient WHERE product_name = :name';
     $html = '';
     foreach($menu[$category] as $product) {
-        $desc = '';
-                $query = $db->prepare($sql);
+        if (!isset($_SESSION['cart'][substr($product['name'],0,4)])) {
+            $_SESSION['cart'][substr($product['name'],0,4)] = [
+                'quantity' => 0,    
+                'name' => $product['name']
+            ]; 
+        }
+        $query = $db->prepare($sql);
                 $data = $query->execute(array(
                     'name' => $product['name']
                 ));
+        $desc = '';
 
                 $row = $query->fetchAll();
                 if ($row) {
@@ -149,19 +155,27 @@ function menuItem($category) {
                 <p class="productdesc">' . $desc . '</p>
                 <p class="productprijs">' . $product['price'] . '</p>
                 <form method="post">
-                <select class="bestelknop" name="orderstatus">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                </select>
-                <input type="submit" class="productfoto" value="Toevoegen" name="' . $product['price'] . '"></input>
+                <input type="submit" class="bestelknop" value="Toevoegen" name="' . substr($product['name'],0,4) . '">
                 </form>
+                <p class="productfoto"> ' . $_SESSION['cart'][substr($product['name'],0,4)]['quantity'] . '</p>
             </div>';
     }
     return $html;
+}
+
+function addToCart($product) {
+    if (!isset($_SESSION['cart'][$product])) {
+        $_SESSION['cart'][$product] = [
+            'quantity' => 0
+        ]; 
+    }
+        $_SESSION['cart'][$product]['quantity']++;
+}
+
+function removeOneFromCart($product) {
+    $_SESSION['cart'][$product]['quantity']--;
+}
+function removeFromCart($product) {
+    $_SESSION['cart'][$product]['quantity'] = 0;
 }
 ?>

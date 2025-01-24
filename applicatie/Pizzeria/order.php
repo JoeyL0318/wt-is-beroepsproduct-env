@@ -31,8 +31,8 @@ if (isset($_GET['statuscheck'])) {
     <link rel="stylesheet" href="css/style.css">
     <title>Uw bestelling - Sole Machina</title>
 </head>
+<?php include('header.php');?>
 <body class="grid-container">
-<?=include('header.php')?>
     <main>
         <h2>Bekijk de status van uw bestelling</h2>
         <?=$error?>

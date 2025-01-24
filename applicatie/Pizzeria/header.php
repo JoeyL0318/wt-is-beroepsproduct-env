@@ -11,4 +11,4 @@
     <li><a href="about.php">Over ons</a></li>
     <li id="righttab"><a href="index.php">Home</a></li>
 </ul>
-    </nav>
+</nav>

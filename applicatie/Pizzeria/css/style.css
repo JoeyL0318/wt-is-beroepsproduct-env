@@ -158,7 +158,9 @@ a.basicback:hover {
     font: bolder;
     border-radius: 10px;
 }
-.productfoto { grid-area: image;}
+.productfoto {
+    grid-area: image;
+}
 
 button:hover {
     cursor:pointer;

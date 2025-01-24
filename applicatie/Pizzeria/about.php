@@ -3,7 +3,6 @@ session_start();
 
 require_once 'library/db_function.php';
 $subtitle = subtitle();
-
 ?>
 
 <!DOCTYPE html>
@@ -16,8 +15,8 @@ $subtitle = subtitle();
     <link rel="stylesheet" href="css/style.css">
     <title>Over ons - Sole Machina</title>
 </head>
+<?php include('header.php');?>
 <body class="grid-container">
-    <?=include('header.php')?>
     <main class="middle">
         <h2>La nostra storia</h2>
         <p>In 1975 kwam ik naar Nederland vanuit Napoli, ik heb mijn liefde voor eten van mijn grootmoeder gekregen. 
