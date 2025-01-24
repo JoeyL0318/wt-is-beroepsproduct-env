@@ -1,6 +1,6 @@
 <header>
 <h1>Sole Machina</h1>
-<h3><?=$titel?></h3>
+<h3><?=$subtitle?></h3>
     </header>
     <nav>
 <ul>

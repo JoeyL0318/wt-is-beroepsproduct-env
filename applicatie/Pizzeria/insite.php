@@ -3,52 +3,31 @@ session_start();
 require_once 'library/db_connectie.php';
 require_once 'library/db_function.php';
 
-$titel = '';
-$melding = '';
+$subtitle = subtitle();
+$error = '';
 $order_id = '';
-$adres = '';
-$statusomschr = '';
-$normaldate = '';
+$adress = '';
+$statusdesc = '';
+$date = '';
 $html = '';
 $html1 = '';
 $db = maakVerbinding();
 
-if (isset($_SESSION['login'])) {
-    $user = $_SESSION['login'];
-    $titel = "Welkom {$user}";
-} else {
-    header('location: staff.php');
+if (!isset($_SESSION['login'])) {
+    header('location: staff.php'); 
 }
-
 
 if (isset($_GET['manageorder'])) {
     if(isset($_GET['actbestelling'])) {
         unset($_GET['actbestelling']);
     }
     $orderid = isset($_GET['ordernr']) ? sanitize($_GET['ordernr']) : null;
-    if ($_GET['ordernr'] === null) {
-        $melding = 'Vul een ordernummer in.';
-    } else {
-        $sql = 'SELECT * FROM Pizza_order WHERE order_id = :orderid';
-        $query = $db->prepare($sql);
-        $data = $query->execute(array(
-            'orderid' => $orderid
-        ));
-        if ($rij = $query->fetch()) {
-            $order_id = $rij['order_id'];
-            $status = $rij['status'];
-            $adres = $rij['address'];
-            $date = strtotime($rij['datetime']);
-            $normaldate = date('j F Y, H:i',$date);
-            if ($status == 1) {
-                $statusomschr = 'Ontvangen';
-            } elseif ($status == 2) {
-                $statusomschr = 'Bezorger onderweg';
-            } elseif ($status == 3) {
-                $statusomschr = 'Bezorgd';
-            }
-        }
-    }
+    $orderdesc = orderDetails($orderid);
+    $order_id = $orderdesc['order_id'];
+    $adress = $orderdesc['address'];
+    $statusdesc = $orderdesc['statusdesc'];
+    $date = $orderdesc['datetime'];
+    $error = $orderdesc['error'];
 }
 
 if (isset($_POST['updstatus'])) {
@@ -75,7 +54,7 @@ if (isset($_GET['actbestelling'])) {
     }
 $sql2 = 'SELECT order_id, datetime, address
         FROM Pizza_Order
-        WHERE status = 1';
+        WHERE status = 1 OR status = 2';
 $query2 = $db->prepare($sql2);
 $result = $query2->execute();
 
@@ -83,13 +62,12 @@ $rij = $query2->fetchAll();
 if ($rij) {
     foreach ($rij as $order) {
         $order_id = $order['order_id'];
-        $adres = $order['address'];
-        $date = strtotime($order['datetime']);
-        $normaldate = date('j F Y, H:i',$date);
+        $adate = strtotime($order['datetime']);
+        $date = date('j F Y, H:i',$adate);
         
         $html .= '  <div class="persgrid">
-                <p class="ordernr"> ' . $order_id . '</p>
-                <p class="ordertijd">T: ' . $normaldate . '</p>';
+                <p class="ordernr">Nr: ' . $order_id . '</p>
+                <p class="ordertijd">Tijd: ' . $date . '</p>';
             $html1 = '';
             $sql3 = 'SELECT *
             FROM Pizza_Order_Product
@@ -140,8 +118,7 @@ if ($rij) {
 </ul>
     </nav>
     <main>
-            <h2><?=$titel?></h2>
-            <?=$melding?>
+            <h2><?=$subtitle?></h2>
 <div class="LRgrid">
     <div class="links">
     <h3>Bestellingen</h3>
@@ -155,6 +132,7 @@ if ($rij) {
         </div>
         <div class="rechts">
             <h3>Bestelling Beheren</h3>
+            <?=$error?>
             <form>
                 <label for="ordernr">Ordernummer</label>
                 <input type="text" id="ordernr" name="ordernr" placeholder="Ordernummer" required maxlength="6"><br><br>
@@ -172,9 +150,9 @@ if ($rij) {
                 </select>
                 </form>
                     <div class="orderextra">
-                        <p><?=$adres?></p>
-                        <p><?=$normaldate?></p>
-                        <p><?=$statusomschr?></p>
+                        <p><?=$adress?></p>
+                        <p><?=$date?></p>
+                        <p><?=$statusdesc?></p>
                     </div>
             </div>
         </div>

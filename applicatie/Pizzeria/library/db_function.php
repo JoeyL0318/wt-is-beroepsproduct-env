@@ -59,7 +59,7 @@ function sanitize($value): string
     return htmlspecialchars(strip_tags($value));
 }
 
-function titel() : string {
+function subtitle() : string {
     if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
     return "Welkom {$user}";
@@ -69,7 +69,6 @@ function titel() : string {
 }
 
 function orderDetails($orderid) {
-
     $orderDetails = [
         'order_id' => null,
         'statusdesc' => null,
@@ -77,6 +76,7 @@ function orderDetails($orderid) {
         'address' => null,
         'error' => '',
     ];
+
         $db = maakVerbinding();
         $sql = 'SELECT order_id, datetime, status, address FROM Pizza_order WHERE order_id = :orderid';
         $query = $db->prepare($sql);

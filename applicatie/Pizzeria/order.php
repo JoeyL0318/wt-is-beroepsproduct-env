@@ -3,42 +3,21 @@ session_start();
 require_once 'library/db_connectie.php';
 require_once 'library/db_function.php';
 
-$titel = titel();
-$melding = '';
+$subtitle = subtitle();
 $order_id = '';
-$adres = '';
-$statusomschr = '';
-$normaldate = '';
-$html = '';
+$adress = '';
+$statusdesc = '';
+$date = '';
+$error = '';
 
 if (isset($_GET['statuscheck'])) {
     $orderid = isset($_GET['ordernr']) ? sanitize($_GET['ordernr']) : null;
-    if ($_GET['ordernr'] === null) {
-        $melding = 'Vul een ordernummer in.';
-    } else {
-        $db = maakVerbinding();
-        $sql = 'SELECT *
-                FROM Pizza_Order
-                WHERE order_id = :orderid';
-        $query = $db->prepare($sql);
-        $data = $query->execute(array(
-            'orderid' => $orderid
-        ));
-        if ($rij = $query->fetch()) {
-            $order_id = $rij['order_id'];
-            $status = $rij['status'];
-            $adres = $rij['address'];
-            $date = strtotime($rij['datetime']);
-            $normaldate = date('j F Y, H:i',$date);
-            if ($status == 1) {
-                $statusomschr = 'Ontvangen';
-            } elseif ($status == 2) {
-                $statusomschr = 'Bezorger onderweg';
-            } elseif ($status == 3) {
-                $statusomschr = 'Bezorgd';
-            }
-        }
-    }
+    $orderdesc = orderDetails($orderid);
+    $order_id = $orderdesc['order_id'];
+    $adress = $orderdesc['address'];
+    $statusdesc = $orderdesc['statusdesc'];
+    $date = $orderdesc['datetime'];
+    $error = $orderdesc['error'];
 }
 ?>
 
@@ -56,6 +35,7 @@ if (isset($_GET['statuscheck'])) {
 <?=include('header.php')?>
     <main>
         <h2>Bekijk de status van uw bestelling</h2>
+        <?=$error?>
         <form method="" action="">
             <label for="ordernr">Uw ordernummer</label>
                 <input type="text" id="ordernr" name="ordernr" placeholder="Bijv. 82RTP1" required maxlength="6"><br><br>
@@ -66,9 +46,9 @@ if (isset($_GET['statuscheck'])) {
     </main>
     <footer class="order">
         <h2>Bestelling <?=$order_id?> </h2>
-        <p>Status: <?=$statusomschr?></p>
-        <p>Besteld op: <?=$normaldate?></p>
-        <p>Adres: <?=$adres?></p>
+        <p>Status: <?=$statusdesc?></p>
+        <p>Besteld op: <?=$date?></p>
+        <p>Adres: <?=$adress?></p>
     </footer>
 </body>
 </html>

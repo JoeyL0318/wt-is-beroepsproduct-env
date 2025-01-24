@@ -1,10 +1,7 @@
 <?php 
 session_start();
-$titel = 'Ristorante Italiano';
-if (isset($_SESSION['login'])) {
-    $user = $_SESSION['login'];
-    $titel = "Welkom {$user}";
-}
+require_once 'library/db_function.php';
+$subtitle = subtitle();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +16,7 @@ if (isset($_SESSION['login'])) {
 <body class="grid-container">
     <header>
 <h1>Sole Machina</h1>
-<h3><?=$titel?></h3>
+<h3><?=$subtitle?></h3>
     </header>
     <nav>
 <ul>

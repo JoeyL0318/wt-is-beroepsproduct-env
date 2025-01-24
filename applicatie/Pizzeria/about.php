@@ -2,7 +2,7 @@
 session_start();
 
 require_once 'library/db_function.php';
-$titel = titel();
+$subtitle = subtitle();
 
 ?>
 

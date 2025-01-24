@@ -5,7 +5,7 @@ require_once 'library/db_function.php';
 
 session_start();
 $melding = '';
-$titel = titel();
+$subtitle = subtitle();
 $html = "";
 
 if (isset($_SESSION['login'])) {
