@@ -97,7 +97,9 @@ input[type=text], select, input[type=password], input[type=date] {
 
 .cart {
     display: grid;
-    grid-template-areas: 'header image footer amount';
+    grid-template-areas: 
+    'text1 text2 text3 min'
+    'header image footer amount';
     text-align: center;
     align-items: center;
     background-color: #444;
@@ -106,7 +108,24 @@ input[type=text], select, input[type=password], input[type=date] {
     padding: 14px 16px;
     margin: 8px 0;
 }
-
+.button1 {
+    grid-area: plus;
+}
+.button2 {
+    grid-area: min;
+}
+.button3 {
+    grid-area: delete;
+}
+.text1 {
+    grid-area: text1;
+}
+.text2 {
+    grid-area: text2;
+}
+.text3 {
+    grid-area: text;
+}
 a, a:visited {
     color: #444;
     text-decoration: none;

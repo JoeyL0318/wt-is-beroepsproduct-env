@@ -134,7 +134,8 @@ function menuItem($category) {
         if (!isset($_SESSION['cart'][substr($product['name'],0,4)])) {
             $_SESSION['cart'][substr($product['name'],0,4)] = [
                 'quantity' => 0,    
-                'name' => $product['name']
+                'name' => $product['name'],
+                'price' => $product['price']
             ]; 
         }
         $query = $db->prepare($sql);
@@ -177,5 +178,42 @@ function removeOneFromCart($product) {
 }
 function removeFromCart($product) {
     $_SESSION['cart'][$product]['quantity'] = 0;
+}
+
+function showCart() {
+    $html = '';
+    $cartFilled = false;
+    if (empty($_SESSION['cart'])) {
+        $html = '<p>Op dit moment is uw winkelwagen leeg <a class = inlinehref href="menu.php">bekijk het menu en voeg items toe!</a></p>';
+    } else {
+    foreach ($_SESSION['cart'] as $product) {
+        if ($product['quantity'] >= 1) {
+            $totprijs = $product['quantity'] * $product['price'];
+            $html .= '
+             <div class="cart">
+             <p class="text2">Aantal</p>
+             <p class="text3">Tot. prijs</p>
+            <p class="producttitel">' . $product['name'] .'</p>
+            <p class="productfoto">' . $product['quantity'] .'</p>
+            <p class="productprijs">€' . $totprijs . '</p>
+            <form method="post">
+            <input type="submit" class="bestelknop" value="-" name="' . substr($product['name'],0,3) . '">
+            </form>
+            <form method="post">
+            <input type="submit" class="bestelknop" value="+" name="' . substr($product['name'],0,4) . '">
+            </form>
+            <form method="post">
+            <input type="submit" class="bestelknop" value="Verwijderen" name="' . substr($product['name'],1,3) . '">
+            </form>
+            </div>
+            ';
+            $cartFilled = true;
+        } 
+        }
+    }
+    if (!$cartFilled) {
+        $html = '<p>Op dit moment is uw winkelwagen leeg <a class = inlinehref href="menu.php">bekijk het menu en voeg items toe!</a></p>';
+        } 
+    return $html;
 }
 ?>
