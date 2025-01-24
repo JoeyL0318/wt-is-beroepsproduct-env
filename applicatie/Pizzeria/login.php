@@ -4,13 +4,13 @@ require_once 'library/db_connectie.php';
 require_once 'library/db_function.php';
 
 session_start();
-$melding = '';
+$notif = '';
 $subtitle = subtitle();
 $html = "";
 
 if (isset($_SESSION['login'])) {
     $user = $_SESSION['login'];
-    $melding = 'User is logged in <br>';
+    $notif = 'User is logged in <br>';
     $html = '<a href="logout.php">Log Uit</a>';  
 
     $db = maakVerbinding();
@@ -77,7 +77,7 @@ if (isset($_POST['login'])) {
     $password = isset($_POST['wachtwoord']) ? sanitize($_POST['wachtwoord']) : null;
 
     if ($username === null || $password === null) {
-        $melding = 'missing username or password';
+        $notif = 'missing username or password';
     } else {
         $db = maakVerbinding();
         $sql = 'SELECT * FROM [User] WHERE username = :username';
@@ -93,14 +93,14 @@ if (isset($_POST['login'])) {
                 $_SESSION['role'] = $rol;
                 echo "<meta http-equiv='refresh' content='0'>";
             } else {
-                $melding = 'password not found';
+                $notif = 'password not found';
             }
         } else {
-            $melding = 'username not found';
+            $notif = 'username not found';
         }
     }
 }
-
+// registreren
 if (isset($_POST['registreren'])) {
     $username = isset($_POST['naam']) ? sanitize($_POST['naam']) : null;
     $password = isset($_POST['wachtwoord']) ? sanitize($_POST['wachtwoord']) : null;
@@ -110,7 +110,7 @@ if (isset($_POST['registreren'])) {
     $client = 'Client';
     
     if ($username === null || $password === null || $address === null || $fname === null || $lname === null) {
-        $melding = 'Er ontbreekt informatie, uw registratie is mislukt.';
+        $notif = 'Er ontbreekt informatie, uw registratie is mislukt.';
     } else {
     $passwordhash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -127,9 +127,9 @@ if (isset($_POST['registreren'])) {
     ));
     if ($succes) {
         echo "<meta http-equiv='refresh' content='0'>";
-        $melding = "gebruiker geregistreerd";
+        $notif = "gebruiker geregistreerd";
     } else {
-        $melding = "registratie mislukt";
+        $notif = "registratie mislukt";
          }
      } 
 }
@@ -147,7 +147,7 @@ if (isset($_POST['registreren'])) {
 <?php include('header.php');?>
 <body class="grid-container">
     <main>
-        <?= $melding?>
+        <?= $notif?>
         <?=$html?>
     </main>
 </body>

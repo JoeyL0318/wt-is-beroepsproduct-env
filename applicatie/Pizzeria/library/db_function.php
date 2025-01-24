@@ -218,4 +218,52 @@ function showCart() {
         } 
     return $html;
 }
+
+function placeOrder($name, $adress) {
+    $db = maakVerbinding();
+    $user = null;
+    $sql = "INSERT INTO Pizza_Order VALUES
+                (:user, :client_name, 'henk', :datetime, '1', :adress)";
+    $date = date("Y-m-d H:i:s");
+    if(isset($_SESSION['login'])) {
+        $user = $_SESSION['login']; 
+    }
+    $query = $db->prepare($sql);
+    $data = $query->execute(array(
+        'client_name' => $name,
+        'adress' => $adress,
+        'user' => $user,
+        'datetime' => $date
+    ));
+}
+
+function findHighestOrder() {
+    $db = maakVerbinding();
+    $sql = 'SELECT MAX(order_id) AS nr
+            FROM Pizza_Order';
+    $query = $db->prepare($sql);
+    $data = $query->execute();
+    $row = $query->fetch();
+    $ordernr = $row['nr'];
+
+    return $ordernr;
+}
+
+function placeProductOrder($winkelwagen) {
+    $newnr = findHighestOrder();
+    $db = maakVerbinding();
+    $sql = 'INSERT INTO Pizza_Order_Product (order_id, product_name, quantity) VALUES (:order_id, :product_name, :quantity)';
+    $query = $db->prepare($sql);
+    foreach ($winkelwagen as $product => $item) { 
+        if($item['quantity'] > 0) {
+    $data = $query->execute(array(
+        'order_id' => $newnr,
+        'product_name' => $item['name'],
+        'quantity' => $item['quantity']
+    ));
+    unset($_SESSION['cart']);
+    header("location: order.php?ordernr=$newnr&statuscheck=statuscheck");
+        }
+    }
+}
 ?>
